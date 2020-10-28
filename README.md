@@ -1,4 +1,4 @@
-# Employee_Tracker
+# Employee Tracker
 A management system using node, inquirer, and MySQL to manage an employee database. Allows you to view employees by department, manager, and more.
 
 ## License
@@ -23,7 +23,8 @@ Simply download the files, run an npm install, and then run node server.js.
 ## Usage Information
 Use by running node server.js. Answer the prompts about what you'd like to see or add. 
 
-<img src="">
+
+Demonstration Link : https://drive.google.com/file/d/1duQKIr9CItOK0NGZ9YUKFSoJDCyYH6sp/view
 
 
 ## Credits / Contributors

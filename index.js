@@ -14,6 +14,7 @@ function init() {
   loadMainPrompts();
 }
 
+//Prompts to ask questions
 async function loadMainPrompts() {
   const { choice } = await prompt([
     {
@@ -81,7 +82,7 @@ async function loadMainPrompts() {
     }
   ]);
 
-  // Call the appropriate function depending on what the user chose
+  // Call the appropriate function depending which choice was selected
   switch (choice) {
     case "VIEW_EMPLOYEES":
       return viewEmployees();
@@ -114,6 +115,7 @@ async function loadMainPrompts() {
   }
 }
 
+//View Employees function
 async function viewEmployees() {
   const employees = await db.findAllEmployees();
 
@@ -123,6 +125,7 @@ async function viewEmployees() {
   loadMainPrompts();
 }
 
+//View Employees by department function
 async function viewEmployeesByDepartment() {
   const departments = await db.findAllDepartments();
 
@@ -130,6 +133,7 @@ async function viewEmployeesByDepartment() {
     name: name,
     value: id
   }));
+
 
   const { departmentId } = await prompt([
     {
@@ -148,6 +152,7 @@ async function viewEmployeesByDepartment() {
   loadMainPrompts();
 }
 
+// View Employees by who their manager is
 async function viewEmployeesByManager() {
   const managers = await db.findAllEmployees();
 
@@ -178,6 +183,7 @@ async function viewEmployeesByManager() {
   loadMainPrompts();
 }
 
+// Remove an employee function
 async function removeEmployee() {
   const employees = await db.findAllEmployees();
 
@@ -202,6 +208,7 @@ async function removeEmployee() {
   loadMainPrompts();
 }
 
+// Update the role of an employee function
 async function updateEmployeeRole() {
   const employees = await db.findAllEmployees();
 
@@ -242,6 +249,7 @@ async function updateEmployeeRole() {
   loadMainPrompts();
 }
 
+// Update an employee's manager
 async function updateEmployeeManager() {
   const employees = await db.findAllEmployees();
 
@@ -283,6 +291,7 @@ async function updateEmployeeManager() {
   loadMainPrompts();
 }
 
+// function to view all company roles
 async function viewRoles() {
   const roles = await db.findAllRoles();
 
@@ -292,6 +301,7 @@ async function viewRoles() {
   loadMainPrompts();
 }
 
+// function to add a role
 async function addRole() {
   const departments = await db.findAllDepartments();
 
@@ -324,6 +334,7 @@ async function addRole() {
   loadMainPrompts();
 }
 
+//function to remove a role from the company
 async function removeRole() {
   const roles = await db.findAllRoles();
 
@@ -349,6 +360,7 @@ async function removeRole() {
   loadMainPrompts();
 }
 
+// function to view company departments
 async function viewDepartments() {
   const departments = await db.findAllDepartments();
 
@@ -358,6 +370,7 @@ async function viewDepartments() {
   loadMainPrompts();
 }
 
+// function to add a deparment to the company
 async function addDepartment() {
   const department = await prompt([
     {
@@ -373,6 +386,7 @@ async function addDepartment() {
   loadMainPrompts();
 }
 
+// function to remove a department
 async function removeDepartment() {
   const departments = await db.findAllDepartments();
 
@@ -396,26 +410,30 @@ async function removeDepartment() {
   loadMainPrompts();
 }
 
+// function to add an employee
 async function addEmployee() {
   const roles = await db.findAllRoles();
   const employees = await db.findAllEmployees();
 
   const employee = await prompt([
+    //adds first name of employee
     {
       name: "first_name",
       message: "What is the employee's first name?"
     },
+    //adds last name of employee
     {
       name: "last_name",
       message: "What is the employee's last name?"
     }
   ]);
-
+    
   const roleChoices = roles.map(({ id, title }) => ({
     name: title,
     value: id
   }));
 
+  // assigns a role to the new employee
   const { roleId } = await prompt({
     type: "list",
     name: "roleId",
@@ -430,7 +448,8 @@ async function addEmployee() {
     value: id
   }));
   managerChoices.unshift({ name: "None", value: null });
-
+  
+  // assigns a manager to the new employee
   const { managerId } = await prompt({
     type: "list",
     name: "managerId",
@@ -449,6 +468,7 @@ async function addEmployee() {
   loadMainPrompts();
 }
 
+// function to quit the app
 function quit() {
   console.log("Goodbye!");
   process.exit();

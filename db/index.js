@@ -21,12 +21,12 @@ class DB {
     );
   }
 
-  // Create a new employee
+  // Creates a new employee
   createEmployee(employee) {
     return this.connection.query("INSERT INTO employee SET ?", employee);
   }
 
-  // Remove an employee with the given id
+  // Removes employee by id
   removeEmployee(employeeId) {
     return this.connection.query(
       "DELETE FROM employee WHERE id = ?",
@@ -42,7 +42,7 @@ class DB {
     );
   }
 
-  // Update the given employee's manager
+  // Update the employee's manager
   updateEmployeeManager(employeeId, managerId) {
     return this.connection.query(
       "UPDATE employee SET manager_id = ? WHERE id = ?",
@@ -57,29 +57,29 @@ class DB {
     );
   }
 
-  // Create a new role
+  // Create new role
   createRole(role) {
     return this.connection.query("INSERT INTO role SET ?", role);
   }
 
-  // Remove a role from the db
+  // Remove a role
   removeRole(roleId) {
     return this.connection.query("DELETE FROM role WHERE id = ?", roleId);
   }
 
-  // Find all departments, join with employees and roles and sum up utilized department budget
+  // Find all departments, join with employees and roles 
   findAllDepartments() {
     return this.connection.query(
       "SELECT department.id, department.name, SUM(role.salary) AS utilized_budget FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department on role.department_id = department.id GROUP BY department.id, department.name;"
     );
   }
 
-  // Create a new department
+  // Create a department
   createDepartment(department) {
     return this.connection.query("INSERT INTO department SET ?", department);
   }
 
-  // Remove a department
+  // Remove department
   removeDepartment(departmentId) {
     return this.connection.query(
       "DELETE FROM department WHERE id = ?",
@@ -87,7 +87,7 @@ class DB {
     );
   }
 
-  // Find all employees in a given department, join with roles to display role titles
+  // Find all employees in a given department, join with roles to display their role titles
   findAllEmployeesByDepartment(departmentId) {
     return this.connection.query(
       "SELECT employee.id, employee.first_name, employee.last_name, role.title FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department department on role.department_id = department.id WHERE department.id = ?;",
@@ -95,7 +95,7 @@ class DB {
     );
   }
 
-  // Find all employees by manager, join with departments and roles to display titles and department names
+  // Find all employees by manager, join with departments and roles to display their titles and department names
   findAllEmployeesByManager(managerId) {
     return this.connection.query(
       "SELECT employee.id, employee.first_name, employee.last_name, department.name AS department, role.title FROM employee LEFT JOIN role on role.id = employee.role_id LEFT JOIN department ON department.id = role.department_id WHERE manager_id = ?;",
